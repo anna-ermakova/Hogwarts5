@@ -1,0 +1,2 @@
+package ru.hogwarts.school.repositorys;public interface AvatarRepository {
+}
