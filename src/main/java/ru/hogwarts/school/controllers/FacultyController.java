@@ -136,4 +136,14 @@ public class FacultyController {
     public Collection<Student> getStudents(@PathVariable Long facultyId) {
         return facultyService.getStudents(facultyId);
     }
+
+    @GetMapping("/longest-name")
+    public String getLongestName() {
+        return facultyService.getLongestName();
+    }
+
+    @GetMapping("/strange")
+    public Integer sum() {
+        return facultyService.getStrange();
+    }
 }

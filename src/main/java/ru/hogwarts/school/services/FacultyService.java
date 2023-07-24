@@ -8,8 +8,10 @@ import ru.hogwarts.school.repositorys.FacultyRepository;
 import ru.hogwarts.school.repositorys.StudentRepository;
 
 import java.util.Collection;
+import java.util.Comparator;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Service
 public class FacultyService {
@@ -64,5 +66,24 @@ public class FacultyService {
         return studentRepository.findAll().stream()
                 .filter(s -> s.getFaculty().getId() == facultyId)
                 .collect(Collectors.toList());
+    }
+
+    public String getLongestName() {
+        return facultyRepository.findAll().stream()
+                .map(Faculty::getName)
+                .max(Comparator.comparing(String::length))
+                .get();
+    }
+
+    public Integer getStrange() {
+        Long start = System.currentTimeMillis();
+        int res = Stream.iterate(1, a -> a + 1)
+                //    .parallel()
+                .limit(1_000_000)
+                .reduce(0, (a, b) -> a + b);
+        Long finish = System.currentTimeMillis();
+        long delta = finish - start;
+        System.out.println("simple: " + delta);
+        return res;
     }
 }

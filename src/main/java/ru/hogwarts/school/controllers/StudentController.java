@@ -31,7 +31,7 @@ public class StudentController {
         return studentService.getTotalNumber();
     }
 
-    @GetMapping("/ave-age")
+    @GetMapping("/avg-age")
     @Operation(summary = "Получить средний возраст студентов.")
     public Double getAverageAgeOfStudents() {
         return studentService.getAverageAge();
@@ -124,6 +124,16 @@ public class StudentController {
             return ResponseEntity.badRequest().build();
         }
         return ResponseEntity.ok(f);
+    }
+
+    @GetMapping("/starts-with/{letter}")
+    public Collection<String> getByFirstLetter(@PathVariable("letter") String letter) {
+        return studentService.getByFirstLetter(letter);
+    }
+
+    @GetMapping("/avg-age-2")
+    public Double getAverageAge() {
+        return studentService.getAverageAgeAgain();
     }
 }
 
