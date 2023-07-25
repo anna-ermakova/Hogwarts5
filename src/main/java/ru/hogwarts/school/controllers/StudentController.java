@@ -135,5 +135,15 @@ public class StudentController {
     public Double getAverageAge() {
         return studentService.getAverageAgeAgain();
     }
+
+    @GetMapping("/thread")
+    public void thread() {
+        studentService.thread();
+    }
+
+    @GetMapping("/thread-sync")
+    public void threadSync() {
+        studentService.threadSync();
+    }
 }
 

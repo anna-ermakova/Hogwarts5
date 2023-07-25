@@ -7,6 +7,7 @@ import ru.hogwarts.school.entity.Student;
 import ru.hogwarts.school.repositorys.StudentRepository;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.logging.Logger;
 
 import static java.util.stream.Collectors.toList;
@@ -94,6 +95,53 @@ public class StudentService {
                 .mapToDouble(Student::getAge)
                 .average()
                 .orElse(0.0);
+    }
+
+    public void thread() {
+        List<Student> students = studentRepository.findAll();
+        LOG.info(students.toString());
+        printStudent(students.get(0));
+        printStudent(students.get(1));
+
+        new Thread(() -> {
+            printStudent(students.get(2));
+            printStudent(students.get(3));
+        }).start();
+
+        new Thread(() -> {
+            printStudent(students.get(4));
+            printStudent(students.get(5));
+        }).start();
+    }
+
+    private void printStudent(Student student) {
+        try {
+            Thread.sleep(1000);
+            LOG.info(student.toString());
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private synchronized void printStudentSync(Student student) {
+        printStudent(student);
+    }
+
+    public void threadSync() {
+        List<Student> students = studentRepository.findAll();
+        LOG.info(students.toString());
+        printStudentSync(students.get(0));
+        printStudentSync(students.get(1));
+
+        new Thread(() -> {
+            printStudentSync(students.get(2));
+            printStudentSync(students.get(3));
+        }).start();
+
+        new Thread(() -> {
+            printStudentSync(students.get(4));
+            printStudentSync(students.get(5));
+        }).start();
     }
 }
 
